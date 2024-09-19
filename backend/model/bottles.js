@@ -13,9 +13,11 @@ const BottleSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  totalPrice: {
+  // salman
+  totalAmount: { 
     type: Number,  // Automatically calculated based on qty and pricePerBottle
   },
+  // salman
   customerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Customer',

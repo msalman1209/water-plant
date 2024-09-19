@@ -113,6 +113,8 @@ const TownCustomerManagement = () => {
         <h2 className='mb-3 mt-4'>Select a Town</h2>
         <select onChange={handleTownChange} value={selectedTown}>
           <option value="">Select a Town</option>
+          <option value="Se">Se</option>
+          <option value="Seown">Seown</option>
           {towns.map((town) => (
             <option key={town._id} value={town._id}>
               {town.name}
@@ -148,6 +150,8 @@ const TownCustomerManagement = () => {
         <h3 className='mb-4 mt-4'>Select Customer for Delivery</h3>
         <select onChange={(e) => setSelectedCustomer(e.target.value)} value={selectedCustomer}>
           <option value="">Select a Customer</option>
+          <option value="Semer">Semer</option>
+          <option value="Seer">Seer</option>
           {customers.map((customer) => (
             <option key={customer._id} value={customer._id}>
               {customer.name}

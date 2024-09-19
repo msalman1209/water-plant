@@ -4,6 +4,8 @@ import axios from 'axios';
 
 const Delivery = () => {
   const { customerId } = useParams(); // Get customer ID from URL
+  console.log(customerId);
+  
   const [customer, setCustomer] = useState(null);
   const [bottles, setBottles] = useState([]);
   const [bottleType, setBottleType] = useState('');
@@ -58,14 +60,26 @@ const Delivery = () => {
     }
   };
   
-
+// salman
   const handleAddBottle = async () => {
-    if (bottleType.trim() === '' || !bottleQty || !pricePerBottle) {
-      alert('Please enter all bottle details');
+    if (bottleType.trim() === '' || isNaN(bottleQty) || isNaN(pricePerBottle)) {
+      alert('Please enter valid details');
       return;
     }
+  
     try {
       const totalAmount = parseInt(bottleQty) * parseFloat(pricePerBottle);
+  
+      // Log the data you're about to send
+      console.log({
+        type: bottleType,
+        qty: parseInt(bottleQty),
+        pricePerBottle: parseFloat(pricePerBottle),
+        totalAmount,
+        customerId,
+        date: new Date().toISOString()
+      });
+  
       if (editBottle) {
         await axios.put(`http://localhost:5000/bottles/${editBottle._id}`, {
           type: bottleType,
@@ -85,6 +99,8 @@ const Delivery = () => {
           customerId,
           date: new Date().toISOString()
         });
+        console.log(customerId);
+        
       }
       setBottleType('');
       setBottleQty('');
@@ -95,6 +111,7 @@ const Delivery = () => {
       console.error('Error adding or updating bottle:', error.response || error.message);
     }
   };
+  // salman
 
   const handleDeleteBottle = async (id) => {
     try {
@@ -129,6 +146,8 @@ const Delivery = () => {
   const calculateTotalAmount = () => {
     return bottles.reduce((total, bottle) => total + (bottle.totalAmount || 0), 0);
   };
+  
+
 
   return (
     <div>

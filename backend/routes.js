@@ -131,6 +131,8 @@ app.get('/towns', async (req, res) => {
 // Add a new town
 app.post('/towns', async (req, res) => {
   const town = new Town({ name: req.body.town });
+  console.log(req.body.town);
+  
 
   try {
     const newTown = await town.save();
@@ -141,15 +143,24 @@ app.post('/towns', async (req, res) => {
 });
 
 // Get customers by town
+// salman
 app.get('/customers', async (req, res) => {
   try {
-    const customers = await Customer.find({ town: req.query.town });
+    const { town } = req.query;
+    if (!town) {
+      return res.status(400).json({ message: 'Town ID is required' });
+    }
+    const customers = await Customer.find({ town });
+    if (customers.length === 0) {
+      return res.status(404).json({ message: 'No customers found for this town' });
+    }
     res.json(customers);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
+// salman
 // Add a new customer
 
 // POST route to add a new customer
@@ -282,17 +293,20 @@ app.delete('/customers/:customerId', async (req, res) => {
 //   }
 // });
 // Add a new bottle entry
+// salman
 app.post('/bottles', async (req, res) => {
-  const { type, qty, pricePerBottle, customerId } = req.body;
+  const { type, qty, pricePerBottle, customerId , totalAmount } = req.body;
 
   const bottle = new Bottle({
     type,
     qty,
     pricePerBottle,
     customerId,
-    totalPrice: qty * pricePerBottle, // Calculate total price
+    totalAmount: qty * pricePerBottle, // Calculate total price
     date: new Date() // Store the current date
   });
+  console.log(bottle.customerId);
+  
 
   try {
     const newBottle = await bottle.save();
@@ -301,6 +315,7 @@ app.post('/bottles', async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+// salman
 
 // Get all bottles
 app.get('/bottles', async (req, res) => {

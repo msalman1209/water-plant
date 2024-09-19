@@ -27,24 +27,23 @@ const Payment = () => {
 
   const fetchCustomers = async (townId) => {
     try {
-      const response = await axios.get('http://localhost:5000/customers', { params: { townId } });
+     const response = await axios.get(`http://localhost:5000/customers?town=${townId}`); //salman
       setCustomers(response.data);
     } catch (error) {
       console.error('Error fetching customers:', error);
     }
   };
 
-  const handleTownChange = async (e) => {
-    const townId = e.target.value;
-    setSelectedTown(townId);
-    setSelectedCustomer(''); // Reset selected customer
-    setCustomerDetails(null); // Reset customer details
-    if (townId) {
-      await fetchCustomers(townId);
-    } else {
-      setCustomers([]); // Clear customers if no town is selected
-    }
-  };
+  // salman
+
+  const handleTownChange = (event) => {
+  const selectedTownId = event.target.value;
+  setSelectedTown(selectedTownId);
+  if (selectedTownId) {
+    fetchCustomers(selectedTownId); // Fetch customers for the selected town
+  }
+};
+// salman
 
   const handleCustomerChange = async (e) => {
     const customerId = e.target.value;
